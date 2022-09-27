@@ -14,8 +14,8 @@ class Product extends Model
       'name',
       'price_cents',
       'description',
-      'is_avaible',
-      'establishments_id',
+      'is_avaliable',
+      'establishment_id',
     ];
 
     public function orders()

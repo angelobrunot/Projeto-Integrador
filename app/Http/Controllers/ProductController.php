@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -13,7 +15,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $establishment_id = \Auth::user()->establishment_id;
+        $products = Product::where('establishment_id' , $establishment_id)
+          ->get();
+
+        return view('products.index', ['products' => $products]);
     }
 
     /**
@@ -23,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view ("products.create");
     }
 
     /**
@@ -32,23 +38,45 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $data = $request->all();
-        $data['password'] = \Hash:;make($data['password']);
 
-        User::create($data);
-        return redirect()->route('user.index');
+        $data = $request->validated();
+
+        $data['establishment_id'] = \Auth::user()->establishment_id;
+        $data['is_active'] = ($data['is_active'] ?? '') == 'on';
+
+
+
+        //formatando preço para centavos
+        $data['price_cents'] = (int)($data['price'] * 100);
+
+        //salvando imagem em disco...
+        $product = Product::create($data);
+
+        if($request->hasfile('image')){
+           $imagefile = $request->file('image');
+
+        $product->update([
+          'image_path' =>  $imagefile->storeAs(
+            "images/product/$product->id",
+            'image.jpg',
+            'public',
+            )
+        ]);
+        }
+        return redirect()->route('product.index');
     }
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
+        return view('products.show', ['product'=>$product]);
+
         //
     }
 
@@ -58,9 +86,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Product $product)
     {
-        return view('users.edit', ['user'=> $user]);
+        return view('products.edit', ['product'=> $product]);
     }
 
     /**
@@ -70,9 +98,13 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $)
+    public function update(Request $request, Product $product)
     {
-        //
+      $data = $request->all();
+
+      $product->update($data);
+
+      return redirect()->route('product.show', $product);
     }
 
     /**
@@ -81,8 +113,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('product.index');
     }
 }

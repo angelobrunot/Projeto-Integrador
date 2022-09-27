@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('trading_name')->nullable();
             $table->string('company_name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('address')->nullable();            
+            $table->string('address')->nullable();
+            $table->timestamps();
+
         });
     }
 

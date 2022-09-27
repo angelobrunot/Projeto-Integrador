@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 
@@ -25,5 +25,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware('auth')->group(function(){
 
   Route::resource('user', App\Http\Controllers\UserController::class);
+
+  Route::resource('product', App\Http\Controllers\ProductController::class);
+
+  Route::get('/cardapio/{menu}', 'App\Http\Controllers\MenuController@showPubli')->name('menu.public.show');
+
+  Route::resource('menu', App\Http\Controllers\MenuController::class);
+
 
 });

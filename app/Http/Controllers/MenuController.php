@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Menu;
 
-class NomeDoController extends Controller
+
+class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,14 @@ class NomeDoController extends Controller
      */
     public function index()
     {
-        //
+        $menus = Menu::orderBy('updated_at', 'desc')->paginate();
+        return view('menus.index', ['menus'=> $menus]);
+    }
+
+    public function showPublic(Menu $menu)
+    {
+      return view('menus.public.show', ['menu' => $menu]);
+
     }
 
     /**
@@ -34,7 +43,14 @@ class NomeDoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['establishment_id'] = \auth::user()->establishment_id;
+        $data['is_active'] = ($data['is_active'] ?? '') == 'on';
+
+        Menu::create($data);
+
+        return redirect()->route('menu.index');
     }
 
     /**
@@ -43,9 +59,15 @@ class NomeDoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Menu $menu)
     {
-        //
+        $addableProducts = Product::where('establishment_id', $menu->establishment_id)
+        ->whereDoesntHave('menus', function($query) use ($menu){
+          $query->where('menus.id', $menu->id);
+        })
+        ->get();
+
+        return view('menus.show', ['menu' => $menu, 'addableProducts' => $addableProducts]);
     }
 
     /**
@@ -66,9 +88,15 @@ class NomeDoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MenuRequest $request, Menu $menu)
     {
-        //
+      $data = $request->validated();
+
+      $data['is_active'] = ($data['is_active'] ?? '') == 'on';
+
+      $menu->update($data);
+
+      return redirect()->route('menu.show', $menu->id);
     }
 
     /**
@@ -77,8 +105,9 @@ class NomeDoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Menu $menu)
     {
-        //
+      $menu->delete();
+      return redirect()->route('product.index');
     }
 }

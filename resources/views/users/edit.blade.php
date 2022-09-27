@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.navbar')
 
 @section('content')
 <h1>Formulário de Cadastro de Usuários</h1>

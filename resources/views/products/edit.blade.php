@@ -1,47 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.navbar')
 
 @section('content')
-<h1>Documentação de Cadastro de Usuários</h1>
-  <form action="{{route('user.update', $user->id)}}" method="POST">
+<h1 class="text-secondary">Edição de Produtos</h1>
+  <form action="{{route('product.update', $product->id)}}" method="POST">
   @csrf
   @method('PUT')
+          <div class="d-flex flex-column">
 
-            <li>
-              <a href="#" class="nav-link text-secondary">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"></use></svg>
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
-                Orders
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
-                Products
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
-                Customers
-              </a>
-            </li>
-          
-  <input type="text" name="name" value="{{$user->name}}">
-  <input type="text" name="email" value="{{$user->email}}">
-  <input type="password" name="password" value="">
+  <div class="col-sm-2">
+  <label for="staticEmail" class="col-sm-2 col-form-label">Nome:</label>
+  <input type="text" class="form-control" name="name" value="{{$product->name}}">
+</div>
+
+  <div class="col-sm-2">
+  <label for="staticEmail" class="col-sm-2 col-form-label">description</label>
+  <input type="text" class="form-control" name="description" value="{{$product->description}}">
+</div>
+
+  <div class="col-sm-2">
+  <label for="staticEmail" class="col-sm-2 col-form-label">price_cents</label>
+  <input type="number" class="form-control" name="price" value="">
+</div>
+
+<select class="" name="">
+  <option value="1" @if ($product->is_avaiable) selected @endif>Disponível</option>
+    <option value="0" @if (!$product->is_avaiable) selected @endif>Indisponível</option>
+</select>
 
 <button type="submit">Enviar</button>
+</div>
 </form>
 
 @endsection
