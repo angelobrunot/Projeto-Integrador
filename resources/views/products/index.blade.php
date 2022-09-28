@@ -6,7 +6,6 @@
 <a href="{{route('product.create')}}" type="button" class="btn btn-outline-secondary">Criar Novo</a>
 
 
-
 <div class="container mt-4">
 
   <table class="table table ">
@@ -24,7 +23,7 @@
     @foreach($products as $product)
 
     <tr>
-      <td> <div class="bg-success p-2 text-dark bg-opacity-50">Name</div>
+      <td> <div class="bg-success p-2 text-dark bg-opacity-50">{{$product->name}}</div>
  </td>
       <td> <div class="bg-success p-2 text-dark bg-opacity-50">{{$product->description}}</div></td>
 

@@ -1,7 +1,8 @@
 @extends('layouts.navbar')
 
 @section('content')
-<h1>Listagem de Usuarios</h1>
+<h1> <div class="p-3 mb-2 bg-dark text-white">Listagem de Usuarios</div><h1>
+</h1>
 <div class="container mt-4">
   <table class="table table-dark table-hover">
   <thead>

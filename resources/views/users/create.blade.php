@@ -37,10 +37,7 @@
             <label for="inputTipoFuncionario" class="form-label">Tipo de Funcionário</label>
             <input type="text" name="type" class="form-control" id="inputTipoFuncionario">
 
-
           </div>
-
-
 
           <div class="col-md-6">
 

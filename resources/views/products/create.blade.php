@@ -20,7 +20,7 @@
 
   <div  class="col-md-6">
     <label  for="inputEmail4" class="form-label">Descrição</label>
-    <input type="text" class="form-control" name="descripiton">
+    <input type="text" class="form-control" name="description">
   </div>
 
 <div class="col-md-6">
@@ -48,7 +48,5 @@
     </div>
   </div>
   </form>
-
-</form>
 
 @endsection

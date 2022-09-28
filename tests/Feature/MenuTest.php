@@ -55,7 +55,13 @@ use RefreshDatabase;
 
     public function test_shouldnt_create_menu_when_invalid_data()
     {
-      $response = $this->post('/menu');
+      $response = $this->post('/menu'[
+        'name' => 'Cardápios de Teste',
+        'description' => 'Descrição',
+      ]);
+
+      
+
 
       $response->assertRedirect()
       ->assertInvalid(['name']);
