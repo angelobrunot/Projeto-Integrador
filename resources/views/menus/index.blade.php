@@ -31,7 +31,3 @@
 
 </div>
 @endsection
-
-Cardapios
-Produtos
-Pedidos

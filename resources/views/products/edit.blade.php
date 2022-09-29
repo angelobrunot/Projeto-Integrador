@@ -1,7 +1,7 @@
 @extends('layouts.navbar')
 
 @section('content')
-<h1 class="text-secondary">Edição de Produtos</h1>
+<h1 class="p-3 mb-2 bg-dark text-white">Edição de Produtos</h1>
   <form action="{{route('product.update', $product->id)}}" method="POST">
   @csrf
   @method('PUT')
